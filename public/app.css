@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700'); 
+ 
+body {
+	font-family: 'Montserrat', sans-serif;
+	background: #ecf0f1;
+}
+
+/*****************************HEADER STYLES*****************************/
+header {
+	text-align: center;
+}
+header h1 {
+	font-size: 64px;
+	font-weight: 300;
+	margin: 80px 0 25px;
+	color: #2c3e50;
+}
+header h1 span {
+	font-weight: 700;
+}
+header h2 {
+	color: #bdc3c7;
+	font-weight:300;
+}
+/*****************************FORM STYLES*****************************/
+
+.form {
+	width: 900px;
+	margin: 50px auto 20px;
+}
+
+/*#todoInput {*/
+/*	width: 100%;*/
+/*	height: 60px;*/
+/*	background: none;*/
+/*	border: none;*/
+/*	border-bottom: 1px solid #34495e;*/
+/*	outline: none;*/
+/*	font: 300 28px 'Ubuntu', sans-serif;*/
+/*	padding: 20px;*/
+/*	color: #34495e;*/
+/*}*/
+
+/*****************************LIST STYLES*****************************/
+.list {
+	width: 900px;
+	margin: 50px auto 20px;
+}
+
+/*.task {*/
+/*	width: 100%;*/
+/*	height: 60px;*/
+/*	line-height: 60px;*/
+/*	font-size: 20px;*/
+/*	padding: 0 20px;*/
+/*	color: #34495e;*/
+/*	transition: all .3s ease;*/
+/*}*/
+/*.task:hover {*/
+/*	background: rgba(0, 0, 0, .02);*/
+/*	cursor: pointer;*/
+/*}*/
+
+/*.task:hover span{*/
+/*	opacity: 1;*/
+/*}*/
+
+/*.done {*/
+/*	text-decoration: line-through;*/
+/*	color: #bdc3c7;*/
+/*}*/
+
+/*li span {*/
+/*  float: right;*/
+/*  color: #c0392b;*/
+/*  transition: all 0.3s;*/
+/*  opacity: 0;*/
+/*}*/
+
+/*li span:hover {*/
+/*  color: #e74c3c*/
+/*}*/
+
+#mybutton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+
+
+/********** SELECT OPTION *************/
+
+.styled-select {
+	background-color: #FFFFF;
+	color: #354150;
+	overflow: hidden;
+	width: 900px;
+	height:35px;
+	border:0px;
+	outline:none;
+}
+
+select {
+text-align-last:center; }
+
+.selectWrapper{
+  border-radius:36px;
+  display:inline-block;
+  overflow:hidden;
+  border:1px solid #cccccc;
+}
+
+
+.checkbox_p{
+	float:left;
+	width: 50%;
+}
+
+#pathways {
+	width: 80%;
+	margin-left: 12%;
+	float: left;
+}
+
+
+/*********BUTTON  ******/
+.buttoncontainer {
+  position: relative;
+  top:50%;
+  left:50%;
+  margin-left: -65px;
+  width: 70px;
+  height: 100px;
+  padding-bottom: 50px;
+  text-align: center;
+}
+.button {
+  display: inline-block;
+  background-color: #354150;
+  border-radius: 10px;
+  border:none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 15px;
+  padding: 10px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+  
+  
+ /******* LOADER *******/
+ #loadHere{
+ position: relative;
+  /*top:50%;*/
+  left:50%;
+  margin-left: -65px;
+  margin-top: 50px;
+ }
+ 
+.loader{
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #354150;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

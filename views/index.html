@@ -1,0 +1,96 @@
+<head>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script>
+      function getPathwayGenes(){
+        selectedPathways = []
+        console.log("submit button pressed!!!");
+        $("input:checkbox:checked").each(function(){
+          selectedPathways.push($(this).val());
+        });
+        
+        selectedPathwaysStr = selectedPathways.join("+");
+        $.get("https://cors.io/?http://rest.kegg.jp/get/"+selectedPathwaysStr, function( data ) {
+          getTable(data, selectedPathways.length);
+        });
+        
+        console.log(selectedPathwaysStr);
+      }
+      
+      function getTable(data, num){
+        var table = document.getElementById("finalTable");
+        var tableData = data.split("\n");
+        var div = document.createElement("div");
+        var div1 = document.createElement("div");
+        var div2 = document.createElement("div");
+        var div3 = document.createElement("div");
+        div.setAttribute('class', 'table');
+        div1.setAttribute('class', 'geneName');
+        div2.setAttribute('class', 'description');
+        div3.setAttribute('class', 'genes');
+        // console.log(tableData)
+        for (var i=0; i<tableData.length-1;i++){
+          var line = tableData[i].split(" ")
+          console.log(i, tableData[i])
+        }
+        div.appendChild(div1);
+        div.appendChild(div2);
+        div.appendChild(div3);
+        table.appendChild((div));
+        
+        
+        
+      }
+    </script>
+</head>
+<body>
+  
+  <header>
+    <h1>KPG<span>miner</span></h1>
+    <h2>Find pathway genes for any genome</h2>
+  </header>
+   
+    <section class="form">
+   
+   <div class="selectWrapper" id="dropdownForm">
+      <select class="styled-select" id="tempSelect">
+          <option selected disabled >------Loading-------</option>
+      </select>
+  </div> 
+    </section>
+  
+  <div id="loadHere"></div>
+
+ 
+  <ul class="list" id="pathways" style="list-style-type: none">
+    
+  </ul>
+  
+  <form>
+  <!--  <div class="buttoncontainer">-->
+  <!--<button class="button" style="vertical-align:middle"><span>Submit</span></button>-->
+  <!--</div>-->
+    <div class="buttoncontainer">
+      <input id="submitButton" class="button" style="vertical-align:middle" type="button" onclick="getPathwayGenes()" value="Submit" ></input>
+    </div>
+  </form>
+  
+  <div id="finalTable"></div>
+  
+  
+
+<!-- Footer here -->
+
+<div id="mybutton">
+<a class="github-button" href="https://github.com/sohammehta95/KPGminer" data-size="large" aria-label="Fork sohammehta95/Node-Todo on GitHub">Repo</a>
+</div>
+
+
+</body>
+
