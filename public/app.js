@@ -77,8 +77,10 @@ $(document).ready(function(){
       	}
       }
       var tempSelect = document.getElementById('tempSelect');
-      tempSelect.parentNode.removeChild(tempSelect);
-      form.appendChild(dropdown)
+      if (tempSelect != undefined)
+        tempSelect.parentNode.removeChild(tempSelect);
+      if (form != undefined)
+        form.appendChild(dropdown)
     }
   
 });

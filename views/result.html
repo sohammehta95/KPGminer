@@ -44,14 +44,18 @@
               }
               else if((line.includes("GENE") || flag1)  && !line.includes("COMPOUND")){
                 if (!flag1){
-                  div3.innerHTML += line.split(" ")[10].slice(0, -1) + ", ";
+                  var temp = line.split(" ")[10]
+                  if (temp.includes(";"))
+                    div3.innerHTML += temp.slice(0, -1) + ", ";
+                  else
+                    div3.innerHTML += temp + ", ";
                 }
                 else{
                   var temp = line.split(" ")[14]
                   if (temp.includes(";"))
-                    div3.innerHTML += line.split(" ")[14].slice(0, -1) + ", ";
+                    div3.innerHTML += temp.slice(0, -1) + ", ";
                   else
-                    div3.innerHTML += line.split(" ")[14] + ", ";
+                    div3.innerHTML += temp + ", ";
                 }
                   
                 flag1 = true;
