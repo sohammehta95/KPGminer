@@ -1,0 +1,109 @@
+<head>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    
+    
+    <script type="text/javascript">
+        var url = new URL(window.location.href);
+        var selectedPathwaysStr = url.searchParams.get("ans");
+        $.get("https://cors.io/?http://rest.kegg.jp/get/"+selectedPathwaysStr, function( data ) {
+          getTable(data);
+        });
+        function getTable(data){
+        var table = document.getElementById("finalTable");
+        var tableData = data.split("\n");
+        for (var i=0; i<tableData.length-1;i++){
+          var div = document.createElement("tr");
+          var div1 = document.createElement("td");
+          var div2 = document.createElement("td");
+          var div3 = document.createElement("td");
+          div1.setAttribute("class","row1");
+          div2.setAttribute("class","row2");
+          div3.setAttribute("class","row3");
+          var flag = true;
+          var flag1 = false;
+          var gene = ''
+          while (flag){
+            i++;
+            var line = tableData[i]
+            if (line == "///")
+              flag = false;
+            else{
+              
+              if (line.includes("NAME")){
+                div1.innerHTML = line.split(" - ")[0].substring(line.split(" - ")[0].indexOf("NAME")+4).trim();
+              }
+              else if(line.includes("DESCRIPTION")){
+                div2.innerHTML = line.substring(line.indexOf("DESCRIPTION")+11).trim().split(".")[0]+".";
+              }
+              else if((line.includes("GENE") || flag1)  && !line.includes("COMPOUND")){
+                if (!flag1){
+                  div3.innerHTML += line.split(" ")[10].slice(0, -1) + ", ";
+                }
+                else{
+                  var temp = line.split(" ")[14]
+                  if (temp.includes(";"))
+                    div3.innerHTML += line.split(" ")[14].slice(0, -1) + ", ";
+                  else
+                    div3.innerHTML += line.split(" ")[14] + ", ";
+                }
+                  
+                flag1 = true;
+              }
+              else  flag1 = false;
+                
+            }
+          }
+          div3.innerHTML = div3.innerHTML.slice(0, -2);
+          if (div2.innerHTML == "")
+            div2.innerHTML = "No Description";
+          div.appendChild(div1);
+          div.appendChild(div2);
+          div.appendChild(div3);
+          table.appendChild((div));
+        }
+      }
+      
+    </script>
+</head>
+<body>
+  
+  <header>
+    <h1>KPG<span>miner</span></h1>
+    <!--<h2>Find pathway genes for any genome</h2>-->
+  </header>
+   
+
+<div id="tablecont">
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr id='Headhere'>
+          <th>Pathway</th>
+          <th>Description</th>
+          <th>Genes</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+       <tbody id = "finalTable">
+       </tbody>
+  </table>
+  </div>
+ </div>
+
+<div id="mybutton">
+<a class="github-button" href="https://github.com/sohammehta95/KPGminer" data-size="large" aria-label="Fork sohammehta95/Node-Todo on GitHub">Repo</a>
+</div>
+
+
+</body>
+

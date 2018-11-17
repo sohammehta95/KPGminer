@@ -10,43 +10,20 @@
     <script>
       function getPathwayGenes(){
         selectedPathways = []
-        console.log("submit button pressed!!!");
         $("input:checkbox:checked").each(function(){
           selectedPathways.push($(this).val());
         });
-        
         selectedPathwaysStr = selectedPathways.join("+");
-        $.get("https://cors.io/?http://rest.kegg.jp/get/"+selectedPathwaysStr, function( data ) {
-          getTable(data, selectedPathways.length);
-        });
         
-        console.log(selectedPathwaysStr);
+        window.location.replace("http://comp-bio-sohammehta95.c9users.io/result?ans="+selectedPathwaysStr);
+        
+        
+        
       }
       
-      function getTable(data, num){
-        var table = document.getElementById("finalTable");
-        var tableData = data.split("\n");
-        var div = document.createElement("div");
-        var div1 = document.createElement("div");
-        var div2 = document.createElement("div");
-        var div3 = document.createElement("div");
-        div.setAttribute('class', 'table');
-        div1.setAttribute('class', 'geneName');
-        div2.setAttribute('class', 'description');
-        div3.setAttribute('class', 'genes');
-        // console.log(tableData)
-        for (var i=0; i<tableData.length-1;i++){
-          var line = tableData[i].split(" ")
-          console.log(i, tableData[i])
-        }
-        div.appendChild(div1);
-        div.appendChild(div2);
-        div.appendChild(div3);
-        table.appendChild((div));
-        
-        
-        
-      }
+      
+      
+
     </script>
 </head>
 <body>
@@ -81,7 +58,9 @@
     </div>
   </form>
   
-  <div id="finalTable"></div>
+  <table style="width:100%; margin-top:10%;" id="finalTable">
+    
+  </table>
   
   
 

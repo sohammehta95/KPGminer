@@ -4,7 +4,7 @@ var express = require('express'),
     cors = require('cors'),
     bodyParser = require('body-parser');
     
-var todoRoutes = require("./routes/todos");
+//var todoRoutes = require("./routes/todos");
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -16,7 +16,11 @@ app.get('/', function(req, res){
     res.sendFile("index.html");
 });
 
-app.use('/api/todos', todoRoutes);
+app.get('/result', function(req, res){
+    res.sendFile(__dirname + "/views/result.html");
+});
+
+//app.use('/api/todos', todoRoutes);
 
 app.listen(port, function(){
     console.log("APP IS RUNNING ON PORT " + process.env.PORT);

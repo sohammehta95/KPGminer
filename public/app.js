@@ -1,5 +1,7 @@
 /* global $ */
 $(document).ready(function(){
+  var submitButton = document.getElementById('submitButton');
+  // submitButton.style.visibility="hidden";
   
   $.get( "https://cors.io/?http://rest.kegg.jp/list/genome", function( data ) {
       dropdownData(data);
@@ -30,13 +32,8 @@ $(document).ready(function(){
       unorderedList.appendChild(item);    
     }
     
-    // console.log(pathWayMap);
-        
   }
 
-  function getTable(data){
-    console.log("in herer")
-  }
 
 
   function dropdownData(res){ 
@@ -48,10 +45,12 @@ $(document).ready(function(){
       $(dropdown).addClass("styled-select");
       dropdown.id = "genomeData"
       dropdown.onchange = function(e) {
+        
         var loadDiv = document.getElementById("loadHere");
         loadDiv.classList.add("loader");
          $.get("https://cors.io/?http://rest.kegg.jp/list/pathway/"+e.target.value, function( data ) {
           loadDiv.classList.remove("loader");
+          submitButton.style.visibility="visible";
           fillPathways(data);
         });
       };
