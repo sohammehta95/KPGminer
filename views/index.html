@@ -8,15 +8,162 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script>
+      browsingHistory = ""
+      var currentdate = new Date();
+      
+        function download(filename) {
+          var element = document.createElement('a');
+          element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(browsingHistory));
+          element.setAttribute('download', filename);
+      
+          element.style.display = 'none';
+          document.body.appendChild(element);
+      
+          element.click();
+      
+          document.body.removeChild(element);
+        }
+        
+        function downloadHelper(){
+          download(currentdate.getFullYear()+"-"+currentdate.getMonth()+"-"+currentdate.getDate()+"-"+currentdate.getHours()+":"+currentdate.getMinutes()+".txt");
+        }
+      
       function getPathwayGenes(){
+        console.log("Inside Pathway Genes finc");
+        
+        var loadDiv2 = document.getElementById("loadHere2");
+        loadDiv2.classList.add("loader");
         selectedPathways = []
         $("input:checkbox:checked").each(function(){
           selectedPathways.push($(this).val());
         });
         selectedPathwaysStr = selectedPathways.join("+");
+        if (selectedPathwaysStr.length == 0)
+          alert("Nothing Selected");
+        $.get("https://cors.io/?http://rest.kegg.jp/get/"+selectedPathwaysStr, function( data ) {
+          getTable(data);
+        });
         
-        window.location.replace("http://comp-bio-sohammehta95.c9users.io/result?ans="+selectedPathwaysStr); 
       }
+        
+      function getTable(data){
+        // var main = document.getElementById('temp');
+        // var content = document.getElementById('content');
+        var divContent = document.getElementById('tablecont');
+        divContent.innerHTML = '';
+        var divTableHeader = document.createElement('div');
+        divTableHeader.setAttribute("class","tbl-header");
+        
+        var tableHeader = document.createElement('table');
+        var thead = document.createElement('thead');
+        var tr = document.createElement('tr');
+        tr.setAttribute('id', 'Headhere');
+        var th1 = document.createElement('th');
+        var th2 = document.createElement('th');
+        var th3 = document.createElement('th');
+        
+        th1.innerHTML = "Pathway";
+        th2.innerHTML = "Description";
+        th3.innerHTML = "Genes";
+        
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        tr.appendChild(th3);
+        
+        thead.appendChild(tr);
+        tableHeader.appendChild(thead)
+        divTableHeader.appendChild(tableHeader);
+        
+        var divTableContent  = document.createElement('div');
+        divTableContent.setAttribute('class', 'tbl-content');
+        
+        
+        var tableContent = document.createElement('table');
+        tableContent.setAttribute("cellpadding", '0');
+        tableContent.setAttribute('cellspacing', '0');
+        tableContent.setAttribute('border','0');
+        
+        var table = document.createElement('tbody');
+        table.setAttribute('id', 'finalTable');
+        
+        // var table = document.getElementById("finalTable");
+        var tableData = data.split("\n");
+        for (var i=0; i<tableData.length-1;i++){
+          var div = document.createElement("tr");
+          var div1 = document.createElement("td");
+          var div2 = document.createElement("td");
+          var div3 = document.createElement("td");
+          div1.setAttribute("class","row1");
+          div2.setAttribute("class","row2");
+          div3.setAttribute("class","row3");
+          var flag = true;
+          var flag1 = false;
+          var gene = ''
+          // console.log(tableData[i])
+          while (flag){
+            i++;
+            var line = tableData[i]
+            console.log(line)
+            if (line == "///")
+              flag = false;
+            else{
+              if (line !== null){
+                if (line.includes("NAME")){
+                  div1.innerHTML = line.split(" - ")[0].substring(line.split(" - ")[0].indexOf("NAME")+4).trim();
+                }
+                else if(line.includes("DESCRIPTION")){
+                  div2.innerHTML = line.substring(line.indexOf("DESCRIPTION")+11).trim().split(".")[0]+".";
+                }
+                else if((line.includes("GENE") || flag1)  && !line.includes("COMPOUND")){
+                  if (!flag1){
+                    var temp = line.split(" ")[10]
+                    if (temp.includes(";"))
+                      div3.innerHTML += temp.slice(0, -1) + ", ";
+                    else
+                      div3.innerHTML += temp + ", ";
+                  }
+                  else{
+                    var temp = line.split(" ")[14]
+                    if (temp.includes(";"))
+                      div3.innerHTML += temp.slice(0, -1) + ", ";
+                    else
+                      div3.innerHTML += temp + ", ";
+                  }
+                    
+                  flag1 = true;
+                }
+                else  flag1 = false;
+                  
+              }
+            }
+          }
+          div3.innerHTML = div3.innerHTML.slice(0, -2);
+          if (div2.innerHTML == "")
+            div2.innerHTML = "No Description";
+          
+          var tableDataJson = { 'Pathway' : div1.innerHTML, 'Description': div2.innerHTML, 'Genes': div3.innerHTML }
+          browsingHistory += JSON.stringify(tableDataJson);
+          div.appendChild(div1);
+          div.appendChild(div2);
+          div.appendChild(div3);
+          table.appendChild((div));
+          // main.appendChild(content)
+          // main.appendChild(table);
+        }
+        
+        var loadDiv2 = document.getElementById("loadHere2");
+        loadDiv2.classList.remove("loader");
+        
+        var saveButton = document.getElementById('downloadButton');
+        saveButton.style.visibility="visible";
+        divTableContent.appendChild(table);
+        divContent.appendChild(divTableHeader);
+        divContent.appendChild(divTableContent);
+        // content.appendChild(divContent);
+        
+        
+    }
+
     </script>
 </head>
 <body>
@@ -26,36 +173,61 @@
     <h2>Find pathway genes for any genome</h2>
   </header>
    
-    <section class="form">
-   
-   <div class="selectWrapper" id="dropdownForm">
-      <select class="styled-select" id="tempSelect">
-          <option selected disabled >------Loading-------</option>
-      </select>
-  </div> 
-    </section>
+  <section class="form">
+    <div class="selectWrapper" id="dropdownForm">
+        <select class="styled-select" id="tempSelect">
+            <option selected disabled >------Loading-------</option>
+        </select>
+    </div> 
+  </section>
+  
   
   <div id="loadHere"></div>
 
- 
-  <ul class="list" id="pathways" style="list-style-type: none">
-    
-  </ul>
+
+  <div>
+    <ul class="list" id="pathways" style="list-style-type: none">
+    </ul>
+  </div>
   
-  <form>
-  <!--  <div class="buttoncontainer">-->
-  <!--<button class="button" style="vertical-align:middle"><span>Submit</span></button>-->
-  <!--</div>-->
-    <div class="buttoncontainer">
-      <input id="submitButton" class="button" style="vertical-align:middle" type="button" onclick="getPathwayGenes()" value="Submit" ></input>
+  
+  
+  <div>
+      <div class="buttoncontainer">
+        <input id="submitButton" class="button" style="vertical-align:middle" type="button" onclick="getPathwayGenes(); document.getElementById('loadWrap').scrollIntoView();" value="Submit" ></input>
+      </div>
+      
+      <!--<div class="buttoncontainer">-->
+      <!--  <input id="downloadButton" class="button" style="vertical-align:middle" type="button" onclick="downloadHelper()" value="Get Output History" ></input>-->
+      <!--</div>-->
+  </div>
+  
+  <div id="loadWrap">
+    <div id="loadHere2"></div>
+  </div>
+  
+  
+  <div id="content">
+    <div id="tablecont">
+    </div>    
+  </div>
+  
+  <div>
+    <div class="buttoncontainerSave">
+        <input id="downloadButton" class="buttonSave" style="vertical-align:middle" type="button" onclick="downloadHelper()" value="Save Browsing History" ></input>
     </div>
-  </form>
+  </div>
   
-  <table style="width:100%; margin-top:10%;" id="finalTable">
-    
-  </table>
-  
-  
+  <!--<div class="tbl-header" id="table-header">-->
+  <!--</div>-->
+  <!--<div class="tbl-content">-->
+  <!--  <table cellpadding='0' cellspacing='0' border='0'>-->
+  <!--    <tbody id = 'finalTable'>-->
+  <!--    </tbody>-->
+  <!--  </table>-->
+  <!--</div>-->
+  <!--<div id='temp'></div>-->
+
 
 <!-- Footer here -->
 
