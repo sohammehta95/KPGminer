@@ -1,7 +1,6 @@
 # KPGminer
 
-> Soham Mehta, Rohan Mandloi, Akshay Satam and Gulshan Bhatia, Dr. Rob Patro
-
+> Soham Mehta, Rohan Mandloi, Akshay Satam, Gulshan Bhatia and Dr. Rob Patro  
 > Department of Computer Science, Stony Brook University.
 
 
