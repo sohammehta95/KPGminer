@@ -1,18 +1,22 @@
 # KPGminer
 
 > Soham Mehta, Rohan Mandloi, Akshay Satam and Gulshan Bhatia, Dr. Rob Patro
+
 > Department of Computer Science, Stony Brook University.
+
 
 KPGMiner is a tool to retrieve the constituent genes in KEGG pathways for different organisms and to organize information for pathway analysis pipelines. 
 
+Project Link: https://www.kpgminer.com/
+
+Project Paper: https://goo.gl/wsWDNH
 
 ![KPGMiner](kpgmain.png)
 
-Project Link: https://www.kpgminer.com/
-Project Paper: https://goo.gl/wsWDNH
 
 
 ## Introduction and Motivation
+
 Previously, a tool known as [KPGminer](https://www.biorxiv.org/content/early/2018/09/13/416131) was developed by Mr.Azad at the University of NSW, Australia. With the Web and UI development, we at Stony Brook University have developed a open source version of KPGminer that can be used by anyone simply using their web browser. It relieves the user from hassel of installing any program for a specific set of OS. It finds the pathway genes and its relevant information from the KEGG pathway database. The UI developed is simple and intuitive and can be easily understandable by the practitioners.
 
 ![KPGMiner2](kpg2.png)
@@ -36,12 +40,15 @@ Our implementation of KPGminer tool is an open source, cloud-based website havin
 5. Click on Save Genes History to save the data in the local directory.
 
 ##	Conclusion
+
 As part of this project, we also found out pain-points in current research work around pathway genes and tried to build an open-source tool to solve the same. While building the tool, we learnt a few terminologies in Biology and their significance. We also learnt that how  we can get useful information about genes, by firing correct REST APIs. There were a few technical learnings, like building a Website, using modern technologies like HTML,CSS and Javascript.
 
 ##	Acknowledgements
+
 We would like to thank Prof. Rob Patro for his continuous guidance and suggestions during the implementation of the project. We learnt new concepts and techniques relevant to Bio-informatics and learnt how to overcome the engineering problems faced. We would also express our gratitude to the team, which exposed the REST APIs to the KEGG database. The APIs made our task easier.
 
 ## References
+
 1.	Azad, A. K. M. (2018) KPGminer: A tool for retrieving pathway genes from KEGG pathway database. BMC Bioinformatics, 8, 5
 2.	https://www.kegg.jp/kegg/rest/keggapi.html
 
